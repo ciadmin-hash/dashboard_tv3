@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script>
+    let links = [
+      "https://datastudio.google.com/reporting/54cbafde-95c2-47c7-a64c-be41fae8d1f7/page/xKDBD",
+      "https://datastudio.google.com/reporting/54cbafde-95c2-47c7-a64c-be41fae8d1f7/page/p_r6uhfi964c",
+      "https://datastudio.google.com/reporting/54cbafde-95c2-47c7-a64c-be41fae8d1f7/page/p_lop11xcrfd",
+      "https://datastudio.google.com/reporting/ad854046-5ff8-433c-9203-9156693d0e7b/page/p_s9hkzjr2jd",
+      "https://datastudio.google.com/reporting/ad854046-5ff8-433c-9203-9156693d0e7b/page/p_q0f2quc12d"
+    ];
+
+    let delay = 60000; // 60 detik
+
+    function rotate() {
+      let index = localStorage.getItem("slideIndex");
+
+      if (!index) {
+        index = 0;
+      } else {
+        index = parseInt(index);
+      }
+
+      // update index dulu
+      let nextIndex = (index + 1) % links.length;
+      localStorage.setItem("slideIndex", nextIndex);
+
+      // redirect
+      window.location.href = links[index];
+    }
+
+    window.onload = function () {
+      setTimeout(rotate, delay);
+    };
+  </script>
+</head>
+<body>
+</body>
+</html>

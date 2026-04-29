@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <title>Dashboard Rotator</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+
   <script>
     let links = [
       "https://datastudio.google.com/reporting/54cbafde-95c2-47c7-a64c-be41fae8d1f7/page/xKDBD",
@@ -11,29 +25,23 @@
     ];
 
     let delay = 60000; // 60 detik
+    let index = 0;
 
     function rotate() {
-      let index = localStorage.getItem("slideIndex");
+      let frame = document.getElementById("frame");
+      frame.src = links[index];
 
-      if (!index) {
-        index = 0;
-      } else {
-        index = parseInt(index);
-      }
-
-      // update index dulu
-      let nextIndex = (index + 1) % links.length;
-      localStorage.setItem("slideIndex", nextIndex);
-
-      // redirect
-      window.location.href = links[index];
+      index = (index + 1) % links.length;
     }
 
     window.onload = function () {
-      setTimeout(rotate, delay);
+      rotate(); // tampilkan langsung tanpa nunggu 60 detik
+      setInterval(rotate, delay);
     };
   </script>
 </head>
+
 <body>
+  <iframe id="frame"></iframe>
 </body>
 </html>

@@ -10,12 +10,11 @@
       "https://datastudio.google.com/reporting/ad854046-5ff8-433c-9203-9156693d0e7b/page/p_q0f2quc12d"
     ];
 
-    let delay = 15000; // 15 detik
+    let delay = 60000; // 60 detik
 
     function rotate() {
       let start = localStorage.getItem("startTime");
 
-      // set waktu awal kalau belum ada
       if (!start) {
         start = Date.now();
         localStorage.setItem("startTime", start);
@@ -23,22 +22,17 @@
         start = parseInt(start);
       }
 
-      // hitung index berdasarkan waktu berjalan
       let elapsed = Math.floor((Date.now() - start) / delay);
       let index = elapsed % links.length;
 
-      // redirect ke dashboard sesuai index
-      window.location.href = links[index];
+      // pindah ke link berikutnya (bukan yang sekarang)
+      let nextIndex = (index + 1) % links.length;
+
+      window.location.href = links[nextIndex] + "&t=" + Date.now();
     }
 
     window.onload = function () {
-      // langsung tentukan halaman saat load
-      rotate();
-
-      // pindah lagi setelah delay
-      setTimeout(function () {
-        rotate();
-      }, delay);
+      setTimeout(rotate, delay); // tunggu 60 detik baru pindah
     };
   </script>
 </head>

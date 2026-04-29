@@ -1,20 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Dashboard Rotator</title>
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-    }
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-  </style>
-
   <script>
     let links = [
       "https://datastudio.google.com/reporting/54cbafde-95c2-47c7-a64c-be41fae8d1f7/page/xKDBD",
@@ -24,24 +10,38 @@
       "https://datastudio.google.com/reporting/ad854046-5ff8-433c-9203-9156693d0e7b/page/p_q0f2quc12d"
     ];
 
-    let delay = 5000; // 5 detik
-    let index = 0;
+    let delay = 15000; // 15 detik
 
     function rotate() {
-      let frame = document.getElementById("frame");
-      frame.src = links[index];
+      let start = localStorage.getItem("startTime");
 
-      index = (index + 1) % links.length;
+      // set waktu awal kalau belum ada
+      if (!start) {
+        start = Date.now();
+        localStorage.setItem("startTime", start);
+      } else {
+        start = parseInt(start);
+      }
+
+      // hitung index berdasarkan waktu berjalan
+      let elapsed = Math.floor((Date.now() - start) / delay);
+      let index = elapsed % links.length;
+
+      // redirect ke dashboard sesuai index
+      window.location.href = links[index];
     }
 
     window.onload = function () {
-      rotate(); // tampilkan langsung tanpa nunggu 60 detik
-      setInterval(rotate, delay);
+      // langsung tentukan halaman saat load
+      rotate();
+
+      // pindah lagi setelah delay
+      setTimeout(function () {
+        rotate();
+      }, delay);
     };
   </script>
 </head>
-
 <body>
-  <iframe id="frame"></iframe>
 </body>
 </html>
